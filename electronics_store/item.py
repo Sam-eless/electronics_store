@@ -24,19 +24,20 @@ class Item:
         return self.__product
 
     @product.setter
-    def product(self, product_name) -> None:
-        if len(product_name) < 10:
-            self.__product = product_name
+    def product(self, product) -> None:
+        """Если длинна имени продукта больше 10, выбрасывает ошибку"""
+        if len(product) <= 10:
+            self.__product = product
         else:
-            print('Exception: Длина наименования товара превышает 10 допустимых символов')
+            raise ValueError('Длина наименования товара превышает 10 допустимых символов')
 
     @classmethod
-    def instantiate_from_csv(cls, file_path) -> None:
+    def instantiate_from_csv(cls, file_path) -> list:
         """Альтернативный способ создания объектов-товаров.
         Метод считывает данные из csv-файла и создает экземпляры класса,
         инициализируя их данными из файла.
         Целые числа в полях price и quantity преобразуются в int"""
-        with open(file_path, newline='') as csvfile:
+        with open(file_path, newline='', encoding='windows-1251') as csvfile:
             reader = csv.DictReader(csvfile)
             item_list = []
             for row in reader:
@@ -49,7 +50,7 @@ class Item:
 
     @staticmethod
     def is_integer(value):
-        """Проверяет, является ли число целым"""
+        """Если число целое возвращает True, иначе False"""
         if value % 1 == 0:
             return True
         else:

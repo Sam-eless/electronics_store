@@ -1,4 +1,5 @@
 from electronics_store.item import Item
+import pytest
 
 
 def test_items(test_item):
@@ -18,16 +19,16 @@ def test_correct_product_setter(test_item):
 def test_incorrect_product_setter(test_item):
     """Имя больше 10 символов задать нельзя."""
     test_item.product = 'shortname'
-    test_item.product = 'name_over_10_symbols'
-    print(test_item.product)
     assert test_item.product == 'shortname'
+    with pytest.raises(ValueError):
+        test_item.product = 'Длина названия товара больше 10 символов'
 
 
 def test_is_integer():
     """Является ли число целым."""
     assert Item.is_integer(5) is True
     assert Item.is_integer(5.0) is True
-    assert Item.is_integer(5.5) is False
+    assert Item.is_integer(5.73) is False
 
 
 def test_instantiate_from_csv():
