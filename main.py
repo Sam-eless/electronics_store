@@ -16,7 +16,24 @@ def main():
     print(Item.all)
 
     for i in Item.all:
-        print(i.product, i.price, i.amount)
+        print(i.product, i.price, i.quantity)
+
+    # Homework_2
+    item1.product = "test111111112313name"
+    print(item1.product)
+
+    items_csv_path = "electronics_store/items.csv"
+    Item.instantiate_from_csv(items_csv_path)  # создание объектов из данных файла
+    print(len(Item.all))  # в файле 5 записей с данными по товарам
+    item4 = Item.all[0]
+    print(item4.product)
+
+    for i in Item.all:
+        print(i.product, i.price, i.quantity)
+
+    print(Item.is_integer(5))
+    print(Item.is_integer(5.0))
+    print(Item.is_integer(5.5))
 
 
 if __name__ == '__main__':
