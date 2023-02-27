@@ -13,6 +13,12 @@ class Item:
         self.quantity = quantity
         Item.all.append(self)
 
+    def __str__(self):
+        return f'{self.product}'
+
+    def __repr__(self):
+        return f'Item("{self.product}", {self.price}, {self.quantity})'
+
     def calculate_total_price(self) -> float:
         return self.price * self.quantity
 

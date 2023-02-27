@@ -40,3 +40,11 @@ def test_instantiate_from_csv():
     assert isinstance(test_list[0], Item)
     assert test_list[3].quantity == '5.5'
     assert test_list[4].quantity == 5
+
+
+def test_repr(test_item):
+    assert test_item.__repr__() == Item("бананы", 80, 2000).__repr__()
+
+
+def test_str(test_item):
+    assert test_item.__str__() == Item("бананы", 80, 2000).__str__()
