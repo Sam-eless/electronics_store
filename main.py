@@ -1,4 +1,5 @@
 from electronics_store.item import Item
+from electronics_store.phone import Phone
 
 
 def main():
@@ -36,9 +37,20 @@ def main():
     # print(Item.is_integer(5.5))
 
     # Homework_3
-    item1 = Item("Смартфон", 10000, 20)
-    print(item1)
-    print(item1.__repr__())
+    # item1 = Item("Смартфон", 10000, 20)
+    # print(item1)
+    # print(item1.__repr__())
+
+    # Homework_4
+    phone1 = Phone("iPhone 14", 120_000, 5, 1)
+    print(phone1)
+    print(repr(phone1))
+    phone1.number_of_sim = 1
+    print(phone1.number_of_sim)
+
+    phone2 = Phone("iPhone 14 Pro", 180_000, 50, 2)
+
+    print(phone2 + phone1)
 
 
 if __name__ == '__main__':

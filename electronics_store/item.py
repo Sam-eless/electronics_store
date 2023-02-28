@@ -17,7 +17,13 @@ class Item:
         return f'{self.product}'
 
     def __repr__(self):
-        return f'Item("{self.product}", {self.price}, {self.quantity})'
+        return f'{self.__class__.__name__}("{self.product}", {self.price}, {self.quantity})'
+
+    def __add__(self, other):
+        if isinstance(other, Item):
+            return int(self.quantity) + int(other.quantity)
+        else:
+            raise ValueError("Переданы экземпляры не Phone или Item классов")
 
     def calculate_total_price(self) -> float:
         return self.price * self.quantity
