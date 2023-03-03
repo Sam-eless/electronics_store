@@ -34,7 +34,7 @@ def test_is_integer():
 def test_instantiate_from_csv():
     """Тестирование альтернативного способ создания объектов-товаров.
     Количество совпадает. Проверка на целое число успешна"""
-    path_csv_file = 'items_test.csv'
+    path_csv_file = 'tests/items_test.csv'
     test_list = Item.instantiate_from_csv(path_csv_file)
     assert len(test_list) == 5
     assert isinstance(test_list[0], Item)
