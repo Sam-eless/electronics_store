@@ -1,5 +1,6 @@
 from electronics_store.item import Item
 import pytest
+from electronics_store.exception_classes import InstantiateCSVError
 
 
 def test_items(test_item):
@@ -34,7 +35,8 @@ def test_is_integer():
 def test_instantiate_from_csv():
     """Тестирование альтернативного способ создания объектов-товаров.
     Количество совпадает. Проверка на целое число успешна"""
-    path_csv_file = 'tests/items_test.csv'
+    # path_csv_file = 'tests/items_test.csv'
+    path_csv_file = 'items_test.csv'
     test_list = Item.instantiate_from_csv(path_csv_file)
     assert len(test_list) == 5
     assert isinstance(test_list[0], Item)
@@ -48,3 +50,22 @@ def test_repr(test_item):
 
 def test_str(test_item):
     assert test_item.__str__() == Item("бананы", 80, 2000).__str__()
+
+def test_instantiate_from_csv_error():
+    path_csv_file = 'items2_test.csv'
+    # path_csv_file = 'tests/items2_test.csv'
+    # with pytest.raises(InstantiateCSVError):
+    #     test_list = Item.instantiate_from_csv(path_csv_file)
+    assert Item.instantiate_from_csv(path_csv_file) == 'Файл по указанному пути поврежден: items2_test.csv'
+
+def test_instantiate_from_csv_error_2():
+    path_csv_file = 'items1_test.csv'
+    # path_csv_file = 'tests/items2_test.csv'
+    with pytest.raises(FileNotFoundError):
+        test_list = Item.instantiate_from_csv(path_csv_file)
+
+
+def test_add(test_item, test_phone):
+    assert test_item + test_phone == 2005
+    with pytest.raises(ValueError):
+        assert test_item + 100 == f'Переданы экземпляры не Phone или Item классов'
