@@ -64,20 +64,16 @@ class Item:
                     else:
                         raise InstantiateCSVError
         except FileNotFoundError:
-            print(f"Отсутствует файл по указанному пути: {file_path}")
-            raise FileNotFoundError
-        except KeyError:
-            print("Указанный ключ не найден")
+            message = f"Отсутствует файл по указанному пути: {file_path}"
+            print(message)
+            return message
+
         except InstantiateCSVError:
-            print(f'Файл по указанному пути поврежден: {file_path}')
-            return f'Файл по указанному пути поврежден: {file_path}'
+            message = f'Файл по указанному пути поврежден: {file_path}'
+            print(message)
+            return message
         else:
             return item_list
-
-
-
-
-
 
     @staticmethod
     def is_integer(value):
