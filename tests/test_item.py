@@ -1,5 +1,7 @@
 from electronics_store.item import Item
 import pytest
+import csv
+from electronics_store.exception_classes import InstantiateCSVError
 
 
 def test_items(test_item):
@@ -34,7 +36,8 @@ def test_is_integer():
 def test_instantiate_from_csv():
     """Тестирование альтернативного способ создания объектов-товаров.
     Количество совпадает. Проверка на целое число успешна"""
-    path_csv_file = 'tests/items_test.csv'
+    # path_csv_file = 'tests/items_test.csv'
+    path_csv_file = 'items_test.csv'
     test_list = Item.instantiate_from_csv(path_csv_file)
     assert len(test_list) == 5
     assert isinstance(test_list[0], Item)
@@ -48,3 +51,29 @@ def test_repr(test_item):
 
 def test_str(test_item):
     assert test_item.__str__() == Item("бананы", 80, 2000).__str__()
+
+
+def test_error_broken_csv_file():
+    path_csv_file = 'items2_test.csv'
+    # path_csv_file = 'tests/items2_test.csv'
+    assert Item.instantiate_from_csv(path_csv_file) == 'Файл по указанному пути поврежден: items2_test.csv'
+
+
+def test_file_not_found_error():
+    path_csv_file = 'items1_test.csv'
+    assert Item.instantiate_from_csv(path_csv_file) == 'Отсутствует файл по указанному пути: items1_test.csv'
+
+
+def test_key_error():
+    path_csv_file = 'items_test.csv'
+    with open(path_csv_file, newline='', encoding='windows-1251') as csvfile:
+        reader = csv.DictReader(csvfile)
+        with pytest.raises(KeyError):
+            for row in reader:
+                print(row['any'])
+
+
+def test_add(test_item, test_phone):
+    assert test_item + test_phone == 2005
+    with pytest.raises(ValueError):
+        assert test_item + 100 == f'Переданы экземпляры не Phone или Item классов'

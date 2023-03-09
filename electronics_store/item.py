@@ -1,5 +1,5 @@
 import csv
-
+from electronics_store.exception_classes import InstantiateCSVError
 import pytest
 
 
@@ -49,16 +49,31 @@ class Item:
         Метод считывает данные из csv-файла и создает экземпляры класса,
         инициализируя их данными из файла.
         Целые числа в полях price и quantity преобразуются в int"""
-        with open(file_path, newline='', encoding='windows-1251') as csvfile:
-            reader = csv.DictReader(csvfile)
-            item_list = []
-            for row in reader:
-                if cls.is_integer(float(row['price'])):
-                    row['price'] = int(float(row['price']))
-                if cls.is_integer(float(row['quantity'])):
-                    row['quantity'] = int(float(row['quantity']))
-                item_list.append(cls(row['name'], row['price'], row['quantity']))
-        return item_list
+
+        try:
+            with open(file_path, newline='', encoding='windows-1251') as csvfile:
+                reader = csv.DictReader(csvfile)
+                item_list = []
+                for row in reader:
+                    if len(row.keys()) == 3:
+                        if cls.is_integer(float(row['price'])):
+                            row['price'] = int(float(row['price']))
+                        if cls.is_integer(float(row['quantity'])):
+                            row['quantity'] = int(float(row['quantity']))
+                        item_list.append(cls(row['name'], row['price'], row['quantity']))
+                    else:
+                        raise InstantiateCSVError
+        except FileNotFoundError:
+            message = f"Отсутствует файл по указанному пути: {file_path}"
+            print(message)
+            return message
+
+        except InstantiateCSVError:
+            message = f'Файл по указанному пути поврежден: {file_path}'
+            print(message)
+            return message
+        else:
+            return item_list
 
     @staticmethod
     def is_integer(value):
